@@ -29,6 +29,7 @@ func newRouter(server *Server)*gin.Engine {
     userGroup.GET("/:id", server.getUserById)
     userGroup.POST("", server.createUser)
     userGroup.DELETE("/:id", server.deleteUser)
+    userGroup.PATCH("/:id", server.updateUser)
     return router
 }
 
