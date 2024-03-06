@@ -1,25 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/Koliras/go-server/api"
+	"github.com/Koliras/go-server/config"
 )
 
 func main() {
-    http.HandleFunc("/hello", hello)
-    http.HandleFunc("/headers", headers) 
+    db := config.NewDB()
+    server := api.NewServer(":8080", db)
 
-    http.ListenAndServe(":8080", nil)
+    err := server.Start()
+    if err != nil {
+        panic(err)
+    }
 }
 
-func hello(w http.ResponseWriter, req *http.Request) {
-   fmt.Fprintf(w, "Hello world\n") 
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-   for name, headers := range req.Header {
-       for _, header := range headers {
-           fmt.Fprintf(w, "%v: %v\n", name, header)
-       }
-   }
-}
